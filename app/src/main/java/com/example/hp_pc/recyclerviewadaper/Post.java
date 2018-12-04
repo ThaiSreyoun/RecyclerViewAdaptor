@@ -1,6 +1,9 @@
 package com.example.hp_pc.recyclerviewadaper;
 
-public class Post  {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Post implements Parcelable {
     int userProfile;
     String userName;
     String  checkIn;
@@ -17,6 +20,27 @@ public class Post  {
         this.imagePost=imagePost;
     }
 
+
+    protected Post(Parcel in) {
+        userProfile = in.readInt();
+        userName = in.readString();
+        checkIn = in.readString();
+        detail = in.readString();
+        likeCount = in.readString();
+        imagePost = in.readInt();
+    }
+
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
 
     public int getUserProfile() {
         return userProfile;
@@ -64,5 +88,20 @@ public class Post  {
 
     public void setImagePost(int imagePost) {
         this.imagePost = imagePost;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(userProfile);
+        dest.writeString(userName);
+        dest.writeString(checkIn);
+        dest.writeString(detail);
+        dest.writeString(likeCount);
+        dest.writeInt(imagePost);
     }
 }
